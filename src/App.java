@@ -17,6 +17,8 @@ public class App {
         TerminalView view = new TerminalView();
         CommandList cmd = new CommandList();
 
+        // --> Matheus arrume todos esses bugs nojentos dentro dessa branch, comentario para commit
+
         env.initializeFirstScenario();
         view.displayMenssage("\n<===============> Welcome to the game! <===================>");
         
