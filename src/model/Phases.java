@@ -21,12 +21,14 @@ public class Phases {
     }
 
     public void start() {
-        addPhase1();
-        boolean continuar = true;
 
-        while (continuar) {
-            boolean faseCompleta = checkObjectInPhase1();
-            if (faseCompleta) {
+        addPhase1();
+
+        boolean continuePhase = true;
+
+        while (continuePhase) {
+            boolean phaseCompleted = checkObjectInPhase1();
+            if (phaseCompleted) {
                 System.out.println("Congratulations! You passed!");
                 setStatus(true);
                 break;
@@ -34,7 +36,7 @@ public class Phases {
                 System.out.println("Incorrect items or you didn't collect the required items. Please try again!");
             }
 
-            continuar = ifiTContinues();
+            continuePhase = ifiTContinues();
         }
     }
 
@@ -55,7 +57,7 @@ public class Phases {
 
     public boolean checkObjectInPhase1() {
         ArrayList<String> chec = new ArrayList<>();
-        if (player.getInventory() != null && checkListInventory()) {
+        if (player.getInventory() != null && checkListInventory()) { // vou adicionar aqui como alteração basica, verificação de tamanho também
 
             System.out.println("Enter the required objects:");
 
@@ -84,7 +86,12 @@ public class Phases {
         return false;
     }
 
-    private void addPhase1() {
+    private boolean addPhase1() {
+
+        if (!listPhase.isEmpty()) {
+            return false;
+        }
+
         ObjectItem shild = new ObjectItem("shild", null,
                 null, null);
         ObjectItem sword = new ObjectItem("sword", null,
@@ -95,19 +102,19 @@ public class Phases {
         listPhase.add(sword);
         listPhase.add(shild);
         listPhase.add(book);
+
+        return true;
+
     }
 
     private boolean checkListInventory() {
-        if (player.getInventory() != null) {
-            for (ObjectItem objectItemPer : listPhase) {
-                for (ObjectItem perInventory : player.getInventory()) {
-                    if (objectItemPer.getNameObject().equals(perInventory.getNameObject())) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        if (player.getInventory() == null) return false;
+
+        return listPhase.stream().allMatch(itemFase ->
+                player.getInventory().stream().anyMatch(itemInv ->
+                        itemInv.getNameObject().equalsIgnoreCase(itemFase.getNameObject())
+                )
+        );
     }
 
     public boolean isStatus() {

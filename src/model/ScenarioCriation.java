@@ -168,8 +168,11 @@ public class ScenarioCriation {
                 while (!between) {
                     vv.displayMenssage("Do you want to join the stage?");
                     String ent = sc.nextLine();
+                    System.out.println("depois do join stage aqui");
                     if (ent.equalsIgnoreCase("yes")) {
+                        System.out.println("depois do if de start");
                         between = true;
+                        System.out.println("próxima linha é o ph.start");
                         ph.start();
                     } else if (ent.equalsIgnoreCase("no")) {
                         between = true;
@@ -183,10 +186,10 @@ public class ScenarioCriation {
                 vv.displayMenssage("You need to pass the stage to enter. Go back one scenario and try again");
                 return;
             } else if (currentScenario.getScenarioId() == 4 && ph.isStatus()) {
-                setCurrentScenario(5);
                 vv.displayMenssage("\033[H\033[2J");
                 returnDisplay(5);
-                return; 
+                setCurrentScenario(5);
+                return;
             }
     
             vv.displayMenssage("\033[H\033[2J");
