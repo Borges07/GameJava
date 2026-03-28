@@ -24,12 +24,11 @@ public class Phases {
 
         addPhase1();
 
-        boolean continuar = true;
-        System.out.println("teste saindo do start dps do boolean");
+        boolean continuePhase = true;
 
-        while (continuar) {
-            boolean faseCompleta = checkObjectInPhase1();
-            if (faseCompleta) {
+        while (continuePhase) {
+            boolean phaseCompleted = checkObjectInPhase1();
+            if (phaseCompleted) {
                 System.out.println("Congratulations! You passed!");
                 setStatus(true);
                 break;
@@ -37,7 +36,7 @@ public class Phases {
                 System.out.println("Incorrect items or you didn't collect the required items. Please try again!");
             }
 
-            continuar = ifiTContinues();
+            continuePhase = ifiTContinues();
         }
     }
 
