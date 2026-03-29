@@ -3,20 +3,20 @@ package model;
 import java.util.ArrayList;
 import view.TerminalView;
 
-public class Mainplayer {
-    private String namePlayer;
-    private ArrayList<ObjectItem> inventory = new ArrayList<>();
-    private TerminalView dispay = new TerminalView();
+
+public class Mainplayer extends Player{
+
+    public Mainplayer(String namePlayer, ArrayList<ObjectItem> inventory, TerminalView display) {
+        super(namePlayer, inventory, display);
+
+    }
 
     public Mainplayer(String namePlayer) {
-        this.namePlayer = namePlayer;
-        this.inventory = new ArrayList<>();
-        this.dispay = new TerminalView();
-    }
-    public Mainplayer () {
+        super(namePlayer);
 
     }
 
+    @Override
     public void addItem(ObjectItem object) {
         if (!inventory.contains(object)) {
             inventory.add(object);
@@ -31,17 +31,18 @@ public class Mainplayer {
         inventory.remove(removeObjectItem);
     }
 
+    @Override
     public void showInventory() {
         if (!inventory.isEmpty()) {
-            dispay.displayMenssage("\nPlayer " + getNamePlayer() + " Inventory");
+            display.displayMenssage("\nPlayer " + getNamePlayer() + " Inventory");
             for (ObjectItem objectItemPer : inventory) {
-                dispay.displayMenssage("- " + objectItemPer.getNameObject() + "( "
+                display.displayMenssage("- " + objectItemPer.getNameObject() + "( "
                         + objectItemPer.getDescription() +
                         " )");
 
             }
         } else {
-            dispay.displayMenssage("Player nventory " + getNamePlayer() + "\n Empty inventory");
+            display.displayMenssage("Player nventory " + getNamePlayer() + "\n Empty inventory");
         }
     }
 

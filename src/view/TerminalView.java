@@ -8,6 +8,7 @@ import model.ObjectItem;
 import model.Scenario;
 
 public class TerminalView {
+
     public void displayMenssage(String message) {
         System.out.println(message);
     }
