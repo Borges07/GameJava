@@ -1,6 +1,6 @@
 package model;
 
-import view.TerminalView;
+import service.TerminalViewService;
 
 import java.util.ArrayList;
 
@@ -10,9 +10,9 @@ public class Player {
 
     protected ArrayList<ObjectItem> inventory = new ArrayList<>();
 
-    protected TerminalView display = new TerminalView();
+    protected TerminalViewService display;
 
-    protected Player(String namePlayer, ArrayList<ObjectItem> inventory, TerminalView display) {
+    protected Player(String namePlayer, ArrayList<ObjectItem> inventory, TerminalViewService display) {
         this.namePlayer = namePlayer;
         this.inventory = inventory;
         this.display = display;
@@ -22,12 +22,18 @@ public class Player {
         this.namePlayer = namePlayer;
     }
 
-    protected void addItem (ObjectItem object) {}
+    protected void addItem (ObjectItem object) {
+        if (!inventory.contains(object)) {
+            inventory.add(object);
+            System.out.println("Added to inventory: " + object.getNameObject());
+        } else {
+            System.out.println("Item already in inventory: " + object.getNameObject());
+        }
+    }
 
     protected void removeIten () {}
 
     protected void showInventory () {}
-
 
 
     public String getNamePlayer() {
@@ -46,15 +52,12 @@ public class Player {
         this.inventory = inventory;
     }
 
-    public TerminalView getDisplay() {
+    public TerminalViewService getDisplay() {
         return display;
     }
 
-    public void setDisplay(TerminalView display) {
+    public void setDisplay(TerminalViewService display) {
         this.display = display;
     }
-
-
-
 
 }

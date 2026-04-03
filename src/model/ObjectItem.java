@@ -16,7 +16,6 @@ public class ObjectItem {
     public ObjectItem() {
 
     }
-    
 
     public String getNameObject() {
         return nameObject;
