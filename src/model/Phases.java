@@ -3,14 +3,14 @@ package model;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Phases {
+public class Phases extends Phase{
     private boolean status = false;
     ArrayList<ObjectItem> listPhase = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
     private Mainplayer player;
-    private ScenarioCriation scenarioManager;
+    private ScenarioService scenarioManager;
 
-    public Phases(boolean status, Mainplayer player, ScenarioCriation scenarioManager) {
+    public Phases(boolean status, Mainplayer player, ScenarioService scenarioManager) {
         this.status = status;
         this.player = player;
         this.scenarioManager = scenarioManager;
@@ -57,7 +57,7 @@ public class Phases {
 
     public boolean checkObjectInPhase1() {
         ArrayList<String> chec = new ArrayList<>();
-        if (player.getInventory() != null && checkListInventory()) { // vou adicionar aqui como alteração basica, verificação de tamanho também
+        if (player.getInventory() != null && checkListInventory()) {
 
             System.out.println("Enter the required objects:");
 
@@ -115,21 +115,5 @@ public class Phases {
                         itemInv.getNameObject().equalsIgnoreCase(itemFase.getNameObject())
                 )
         );
-    }
-
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public ScenarioCriation getScenarioManager() {
-        return scenarioManager;
-    }
-
-    public void setScenarioManager(ScenarioCriation scenarioManager) {
-        this.scenarioManager = scenarioManager;
     }
 }

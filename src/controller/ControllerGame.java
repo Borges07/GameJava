@@ -4,16 +4,16 @@ import model.CommandList;
 import model.Mainplayer;
 import model.ObjectItem;
 import model.Phases;
-import model.ScenarioCriation;
+import model.ScenarioService;
 import view.TerminalView;
 
 public class ControllerGame {
     private CommandList currCommandList = new CommandList();
     private Mainplayer player;
     private TerminalView view;
-    private ScenarioCriation theScearios;
+    private ScenarioService theScearios;
 
-    public ControllerGame(Mainplayer player, ScenarioCriation theScearios, Phases phasesGame) {
+    public ControllerGame(Mainplayer player, ScenarioService theScearios, Phases phasesGame) {
         this.player = player;
         this.theScearios = theScearios;
         this.view = new TerminalView();

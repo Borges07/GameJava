@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import view.TerminalView;
+import service.TerminalViewService;
 
-public class ScenarioCriation {
-    private final List<Scenario> listOfSceneObjects = new ArrayList<>();
-    private TerminalView vv = new TerminalView();
+public class ScenarioService {
+    private final List<Scenario> scenarios = new ArrayList<>();
+    private TerminalViewService display;
     private Phases ph = new Phases(false);
     private Scanner sc = new Scanner(System.in);
 
-    public ScenarioCriation(Mainplayer player) {
+    public ScenarioService(Mainplayer player, TerminalViewService display) {
         this.ph = new Phases(false, player, this);
+        this.display = display;
         startScenario();
     }
 
@@ -61,14 +62,14 @@ public class ScenarioCriation {
                 44, false,
                 "public/image6.txt", objectsScenario);
 
-        listOfSceneObjects.add(cenario1);
-        listOfSceneObjects.add(cenario2);
-        listOfSceneObjects.add(cenario3);
-        listOfSceneObjects.add(cenario4);
-        listOfSceneObjects.add(cenario5);
-        listOfSceneObjects.add(cenario6);
-        listOfSceneObjects.add(cenario7);
-        listOfSceneObjects.add(cenario8);
+        scenarios.add(cenario1);
+        scenarios.add(cenario2);
+        scenarios.add(cenario3);
+        scenarios.add(cenario4);
+        scenarios.add(cenario5);
+        scenarios.add(cenario6);
+        scenarios.add(cenario7);
+        scenarios.add(cenario8);
 
     }
 
@@ -81,14 +82,14 @@ public class ScenarioCriation {
     }
 
     public void setCurrentScenario(Integer newId) {
-        listOfSceneObjects.forEach(scenario -> scenario.setActual(false));
-        listOfSceneObjects.stream().filter(scenarioFilter -> scenarioFilter.getScenarioId().equals(newId))
+        scenarios.forEach(scenario -> scenario.setActual(false));
+        scenarios.stream().filter(scenarioFilter -> scenarioFilter.getScenarioId().equals(newId))
                 .forEach(cenarioCurrent -> cenarioCurrent.setActual(true));
 
     }
 
     public Integer currentScenarioId() {
-        for (Scenario scenarioPer : listOfSceneObjects) {
+        for (Scenario scenarioPer : scenarios) {
             if (scenarioPer.isCurrent()) {
                 return scenarioPer.getScenarioId();
 
@@ -98,14 +99,14 @@ public class ScenarioCriation {
     }
 
     public Scenario currenteScenario() {
-        return listOfSceneObjects.stream()
+        return scenarios.stream()
                 .filter(Scenario::isCurrent)
                 .findFirst()
                 .orElse(null);
     }
 
     public void removeObject(Integer idScenario, ObjectItem objectRemove) {
-        for (Scenario scenarioPer : listOfSceneObjects) {
+        for (Scenario scenarioPer : scenarios) {
             if (scenarioPer.getScenarioId().equals(idScenario) && scenarioPer.getObjectScenarioList() != null) {
                 scenarioPer.getObjectScenarioList().remove(objectRemove);
             }
@@ -113,7 +114,7 @@ public class ScenarioCriation {
     }
 
     public ObjectItem findObjectById(Integer idScenario, String objectName) {
-        for (Scenario scenario : listOfSceneObjects) {
+        for (Scenario scenario : scenarios) {
             if (scenario.getScenarioId().equals(idScenario)) {
                 if (scenario.getObjectScenarioList() != null) {
                     for (ObjectItem objPer : scenario.getObjectScenarioList()) {
@@ -128,19 +129,19 @@ public class ScenarioCriation {
     }
 
     public void returnDisplay(Integer newId) {
-        Scenario targetScenario = listOfSceneObjects.stream()
+        Scenario targetScenario = scenarios.stream()
                 .filter(scenario -> scenario.getScenarioId().equals(newId))
                 .findFirst()
                 .orElse(null);
 
         if (targetScenario == null) {
-            vv.displayMenssage("Scenario not found with ID: " + newId);
+            display.displayMenssage("Scenario not found with ID: " + newId);
             return;
         }
 
         try {
             setCurrentScenario(newId);
-            vv.displayImage(targetScenario);
+            display.displayImage(targetScenario);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -151,22 +152,22 @@ public class ScenarioCriation {
         if (currentScenario != null) {
             int nextid = currentScenario.getScenarioId() + 1;
     
-            if (nextid > listOfSceneObjects.size()) {
+            if (nextid > scenarios.size()) {
                 if (currentScenario.getScenarioId() == 44 || currentScenario.getScenarioId() == 45) {
-                    vv.displayMenssage("There are no options to move forward in this scenario");
+                    display.displayMenssage("There are no options to move forward in this scenario");
                     return;
                 }
-                vv.displayMenssage("You are already in the last scenario.");
+                display.displayMenssage("You are already in the last scenario.");
                 return;
             }
     
             if (nextid == 4 && !ph.isStatus()) {
-                vv.displayMenssage("\033[H\033[2J");
+                display.displayMenssage("\033[H\033[2J");
                 returnDisplay(4);
                 setCurrentScenario(4);
                 boolean between = false;
                 while (!between) {
-                    vv.displayMenssage("Do you want to join the stage?");
+                    display.displayMenssage("Do you want to join the stage?");
                     String ent = sc.nextLine();
                     System.out.println("depois do join stage aqui");
                     if (ent.equalsIgnoreCase("yes")) {
@@ -179,36 +180,36 @@ public class ScenarioCriation {
                         setCurrentScenario(4);
                         return;
                     } else {
-                        vv.displayMenssage("Invalid command enter yes or no");
+                        display.displayMenssage("Invalid command enter yes or no");
                     }
                 }
             } else if (currentScenario.getScenarioId() == 4 && !ph.isStatus()) {
-                vv.displayMenssage("You need to pass the stage to enter. Go back one scenario and try again");
+                display.displayMenssage("You need to pass the stage to enter. Go back one scenario and try again");
                 return;
             } else if (currentScenario.getScenarioId() == 4 && ph.isStatus()) {
-                vv.displayMenssage("\033[H\033[2J");
+                display.displayMenssage("\033[H\033[2J");
                 returnDisplay(5);
                 setCurrentScenario(5);
                 return;
             }
     
-            vv.displayMenssage("\033[H\033[2J");
+            display.displayMenssage("\033[H\033[2J");
             returnDisplay(nextid);
     
         } else {
-            vv.displayMenssage("Current scenario not found.");
+            display.displayMenssage("Current scenario not found.");
         }
     }
     
 
     public void backScenario() {
-        vv.displayMenssage("\033[H\033[2J");
+        display.displayMenssage("\033[H\033[2J");
         Scenario curretScenario = currenteScenario();
         if (curretScenario != null) {
             int previouId = currentScenarioId() - 1;
 
             if (currentScenarioId() == 1) {
-                vv.displayMenssage("You are already in the first scenario, can't go back.");
+                display.displayMenssage("You are already in the first scenario, can't go back.");
                 return;
             }
 
@@ -219,32 +220,32 @@ public class ScenarioCriation {
                 setCurrentScenario(3);
                 returnDisplay(3);
             } else {
-                vv.displayMenssage("You can't go back anymore");
+                display.displayMenssage("You can't go back anymore");
             }
         } else {
-            vv.displayMenssage("Current scenario not found");
+            display.displayMenssage("Current scenario not found");
         }
     }
 
     public void leftCommand() {
-        vv.displayMenssage("\033[H\033[2J");
+        display.displayMenssage("\033[H\033[2J");
         Scenario scenariocheck = currenteScenario();
         if (scenariocheck.getScenarioId() == 3) {
             setCurrentScenario(44);
             returnDisplay(44);
         } else {
-            vv.displayMenssage("Invalid command in this scenario");
+            display.displayMenssage("Invalid command in this scenario");
         }
     }
 
     public void rightCommand() {
-        vv.displayMenssage("\033[H\033[2J");
+        display.displayMenssage("\033[H\033[2J");
         Scenario right = currenteScenario();
         if (right.getScenarioId() == 3) {
             setCurrentScenario(45);
             returnDisplay(45);
         } else {
-            vv.displayMenssage("Ivalid command in this scenario");
+            display.displayMenssage("Ivalid command in this scenario");
         }
     }
 
@@ -252,21 +253,21 @@ public class ScenarioCriation {
         Scenario currentScenario = currenteScenario();
 
         if (currentScenario != null && currentScenario.getObjectScenarioList() != null) {
-            vv.displayMenssage("\nObjects in the current scenario:\n");
+            display.displayMenssage("\nObjects in the current scenario:\n");
 
-            vv.displayObjectImages(currentScenario);
+            display.displayObjectImages(currentScenario);
 
             for (ObjectItem obj : currentScenario.getObjectScenarioList()) {
-                vv.displayMenssage("\n" + obj.getDescription());
+                display.displayMenssage("\n" + obj.getDescription());
             }
 
         } else {
-            vv.displayMenssage("There are no objects in this scene.");
+            display.displayMenssage("There are no objects in this scene.");
         }
     }
 
     public List<Scenario> getListOfSceneObjects() {
-        return listOfSceneObjects;
+        return scenarios;
     }
 
 }
