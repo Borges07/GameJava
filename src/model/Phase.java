@@ -1,10 +1,7 @@
 package model;
 
-
 import service.TerminalViewService;
-
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public abstract class Phase {
     private boolean status = false;
@@ -12,7 +9,6 @@ public abstract class Phase {
     private Mainplayer mainplayer;
     private ScenarioService scenarioService;
     private TerminalViewService display;
-    Scanner scanner = new Scanner(System.in);
 
     public Phase(boolean status, ArrayList<ObjectItem> listOfPhase, Mainplayer mainplayer, ScenarioService scenarioService,
                  TerminalViewService display) {
@@ -30,7 +26,7 @@ public abstract class Phase {
     public Phase() {
     }
 
-    protected void start () {}
+    protected Boolean start () {}
 
     public boolean isStatus() {
         return status;

@@ -1,26 +1,28 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import service.InputService;
 
-public class Phases extends Phase{
+import java.util.ArrayList;
+
+public class PhaseOne extends Phase{
     private boolean status = false;
-    ArrayList<ObjectItem> listPhase = new ArrayList<>();
-    Scanner sc = new Scanner(System.in);
+    private InputService inputService;
     private Mainplayer player;
     private ScenarioService scenarioManager;
+    ArrayList<ObjectItem> listPhase = new ArrayList<>();
 
-    public Phases(boolean status, Mainplayer player, ScenarioService scenarioManager) {
+    public PhaseOne(boolean status, Mainplayer player, ScenarioService scenarioManager, InputService inputService) {
         this.status = status;
         this.player = player;
         this.scenarioManager = scenarioManager;
+        this.inputService = inputService;
     }
 
-    public Phases(boolean status) {
+    public PhaseOne(boolean status) {
         this.status = status;
     }
 
-    public void start() {
+    public Boolean start() {
 
         addPhase1();
 
@@ -29,21 +31,23 @@ public class Phases extends Phase{
         while (continuePhase) {
             boolean phaseCompleted = checkObjectInPhase1();
             if (phaseCompleted) {
-                System.out.println("Congratulations! You passed!");
                 setStatus(true);
-                break;
+                System.out.println("Congratulations! You passed!");
+                return true;
             } else {
                 System.out.println("Incorrect items or you didn't collect the required items. Please try again!");
             }
 
             continuePhase = ifiTContinues();
         }
+
+        return false;
     }
 
     private boolean ifiTContinues() {
         while (true) {
             System.out.print("Do you want to try again? (yes/no):");
-            String response = sc.nextLine().trim().toLowerCase();
+            String response = inputService.readNormalizedInput("Do you want to try again? (yes/no):");
             if (response.equals("yes")) {
                 return true;
             } else if (response.equals("no")) {
@@ -63,8 +67,8 @@ public class Phases extends Phase{
 
             for (int i = 0; i < 3; i++) {
                 System.out.print("Object " + (i + 1) + ": ");
-                String leitura = sc.nextLine().trim().toLowerCase();
-                chec.add(leitura);
+                String response = inputService.readNormalizedInput("Object " + (i + 1) + ": ");
+                chec.add(response);
             }
 
             boolean todosPresentes = true;

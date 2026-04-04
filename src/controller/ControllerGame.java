@@ -1,22 +1,21 @@
 package controller;
 
-import model.CommandList;
-import model.Mainplayer;
-import model.ObjectItem;
-import model.Phases;
-import model.ScenarioService;
-import view.TerminalView;
+import model.*;
+import service.TerminalViewService;
+import service.impl.BaseServiceControllerImpl;
 
 public class ControllerGame {
-    private CommandList currCommandList = new CommandList();
-    private Mainplayer player;
-    private TerminalView view;
-    private ScenarioService theScearios;
+    private final BaseServiceControllerImpl baseServiceController;
+    private final CommandList currCommandList = new CommandList();
+    private final Mainplayer player;
+    private final TerminalViewService view;
+    private final ScenarioService scenarioService;
 
-    public ControllerGame(Mainplayer player, ScenarioService theScearios, Phases phasesGame) {
+    public ControllerGame(Mainplayer player, ScenarioService scenarioService, TerminalViewService view, BaseServiceControllerImpl baseServiceController) {
         this.player = player;
-        this.theScearios = theScearios;
-        this.view = new TerminalView();
+        this.scenarioService = scenarioService;
+        this.view = view;
+        this.baseServiceController = baseServiceController;
     }
 
     public void useCommand(String commandInput) {
@@ -71,15 +70,15 @@ public class ControllerGame {
     }
 
     private void avancedScenario() {
-        theScearios.nextScenario();
+        scenarioService.nextScenario();
     }
 
     private void backScenarioController() {
-        theScearios.backScenario();
+        scenarioService.backScenario();
     }
 
     private void lokScenarioController() {
-        view.displayMenssage("\n" + theScearios.currenteScenario().getDescription());
+        view.displayMenssage("\n" + scenarioService.currenteScenario().getDescription());
 
     }
 
@@ -88,26 +87,19 @@ public class ControllerGame {
     }
 
     private void functionLeft() {
-        theScearios.leftCommand();
+        scenarioService.leftCommand();
     }
 
     private void functionRight() {
-        theScearios.rightCommand();
+        scenarioService.rightCommand();
     }
 
     private void lookObjectsScenario() {
-        theScearios.DisplayObjects();
+        scenarioService.DisplayObjects();
     }
 
     public void getObjects(String nameObject) {
-        ObjectItem objectFound = theScearios.findObjectById(theScearios.currenteScenario().getScenarioId(), nameObject);
-        if (objectFound != null && objectFound.getScenarioId() == theScearios.currenteScenario().getScenarioId()) {
-            player.addItem(objectFound);
-            theScearios.removeObject(theScearios.currenteScenario().getScenarioId(), objectFound);
-            view.displayMenssage("You got: " + objectFound.getNameObject());
-        } else {
-            view.displayMenssage("Object not found: " + nameObject);
-        }
+        baseServiceController.getObjectsService(nameObject);
     }
 
 }

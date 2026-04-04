@@ -1,9 +1,10 @@
 import model.CommandList;
 import model.Mainplayer;
-import model.Phases;
+import model.PhaseOne;
 import model.ScenarioService;
 import service.TerminalViewService;
 import controller.ControllerGame;
+import service.impl.BaseServiceControllerImpl;
 import service.impl.TerminalViewServiceImpl;
 
 import java.util.Scanner;
@@ -13,17 +14,16 @@ public class App {
         Scanner sc = new Scanner(System.in);
         Mainplayer p1 = new Mainplayer("Maveras");
         TerminalViewService view = new TerminalViewServiceImpl();
-        ScenarioService env = new ScenarioService(p1, view);
-        Phases phasesIn = new Phases(false, p1, env);
-        ControllerGame controllerGameIn = new ControllerGame(p1, env, phasesIn);
+        ScenarioService env = new ScenarioService(p1, view, null);
+        PhaseOne phaseOneIn = new PhaseOne(false, p1, env, null);
+        BaseServiceControllerImpl baseServiceController = new BaseServiceControllerImpl(env, view);
+        ControllerGame controllerGameIn = new ControllerGame(p1, env, view, baseServiceController);
         CommandList cmd = new CommandList();
 
-        // --> Matheus arrume todos esses bugs nojentos dentro dessa branch, comentario para commit
-
         env.initializeFirstScenario();
-        view.displayMenssage("\n<===============> Welcome to the game! <===================>");
-        
-        view.displayMenssage("<=============>COMMANDS TO USE IN THE GAME<==============>");
+
+        view.startPhaseView();
+
         for (String commandPer : cmd.getActionCommandlist()) {
             view.displayMenssage(commandPer);
         }
@@ -32,7 +32,7 @@ public class App {
 
         while (!sair2) {
             view.displayMenssage("                   <--- START --->\n                   <--- CLOSE --->");
-            String start = sc.nextLine().trim();
+            String start = sc.nextLine().trim(); // mudar aqui <-- mudar aqui também matheus
 
             if (start.equalsIgnoreCase("start")) {
                 boolean sair = false;
@@ -41,7 +41,7 @@ public class App {
                 while (!sair) {
                     try {
                         view.displayMenssage("Enter the commands (or 'exit' to finish):");
-                        String input = sc.nextLine().trim();
+                        String input = sc.nextLine().trim(); // Mudar aqui também <-- mudar aqui matheus
 
                         if (input.equalsIgnoreCase("exist")) {
                             sair = true;
@@ -62,6 +62,6 @@ public class App {
             }
         }
 
-        sc.close();
+        sc.close(); // mudar aqui também <-- mudar aqui Matheus
     }
 }

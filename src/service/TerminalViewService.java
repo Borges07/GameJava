@@ -14,5 +14,7 @@ public interface TerminalViewService {
      void displayObjectImages (Scenario scenario);
 
      void showInventory (String namePlayer, List<ObjectItem> inventoryPlayer);
+
+     void startPhaseView ();
 }
 
