@@ -5,13 +5,13 @@ import service.TerminalViewService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player implements InventoryHandler{
+public abstract class Player implements InventoryHandler{
 
     protected String namePlayer;
 
     protected TerminalViewService display;
 
-    protected List <ObjectItem> inventory;
+    protected List <ObjectItem> inventory = new ArrayList<>();
 
     protected Player(String namePlayer, List <ObjectItem> inventory, TerminalViewService display) {
         this.namePlayer = namePlayer;
@@ -20,8 +20,9 @@ public class Player implements InventoryHandler{
     }
 
     public Player(String namePlayer) {
-        this.namePlayer = namePlayer;
+        this(namePlayer, new ArrayList<>(), null);
     }
+
     public Player() {}
 
     @Override
@@ -41,7 +42,9 @@ public class Player implements InventoryHandler{
 
     @Override
     public void showInventory() {
-
+        for (ObjectItem objectItemPer: inventory) {
+            display.displayMenssage(objectItemPer.getNameObject());
+        }
     }
 
     public String getNamePlayer() {

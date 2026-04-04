@@ -2,6 +2,7 @@ package service.impl;
 
 import model.Mainplayer;
 import model.ObjectItem;
+import model.Player;
 import model.ScenarioService;
 import service.BaseServiceController;
 import service.TerminalViewService;
@@ -9,11 +10,12 @@ import service.TerminalViewService;
 public class BaseServiceControllerImpl implements BaseServiceController {
     private final ScenarioService scenarioService;
     private final TerminalViewService terminalViewService;
-    private final Mainplayer player = new Mainplayer();
+    private Player player;
 
-    public BaseServiceControllerImpl(ScenarioService scenarioService, TerminalViewService terminalViewService) {
+    public BaseServiceControllerImpl(Player player, ScenarioService scenarioService, TerminalViewService terminalViewService) {
         this.scenarioService = scenarioService;
         this.terminalViewService = terminalViewService;
+        this.player = player;
     }
 
     @Override

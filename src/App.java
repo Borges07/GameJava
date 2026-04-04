@@ -1,22 +1,22 @@
-import model.CommandList;
-import model.Mainplayer;
-import model.PhaseOne;
-import model.ScenarioService;
+import model.*;
+import service.BaseServiceController;
 import service.TerminalViewService;
 import controller.ControllerGame;
 import service.impl.BaseServiceControllerImpl;
 import service.impl.TerminalViewServiceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
-        Mainplayer p1 = new Mainplayer("Maveras");
         TerminalViewService view = new TerminalViewServiceImpl();
+        Mainplayer p1 = new Mainplayer("Maveras");
         ScenarioService env = new ScenarioService(p1, view, null);
         PhaseOne phaseOneIn = new PhaseOne(false, p1, env, null);
-        BaseServiceControllerImpl baseServiceController = new BaseServiceControllerImpl(env, view);
+        BaseServiceController baseServiceController = new BaseServiceControllerImpl(p1, env, view);
         ControllerGame controllerGameIn = new ControllerGame(p1, env, view, baseServiceController);
         CommandList cmd = new CommandList();
 
@@ -42,6 +42,7 @@ public class App {
                     try {
                         view.displayMenssage("Enter the commands (or 'exit' to finish):");
                         String input = sc.nextLine().trim(); // Mudar aqui também <-- mudar aqui matheus
+                        p1.toString();
 
                         if (input.equalsIgnoreCase("exist")) {
                             sair = true;
