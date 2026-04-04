@@ -1,17 +1,17 @@
 package controller;
 
 import model.*;
+import service.BaseServiceController;
 import service.TerminalViewService;
-import service.impl.BaseServiceControllerImpl;
 
 public class ControllerGame {
-    private final BaseServiceControllerImpl baseServiceController;
+    private final BaseServiceController baseServiceController;
     private final CommandList currCommandList = new CommandList();
     private final Mainplayer player;
     private final TerminalViewService view;
     private final ScenarioService scenarioService;
 
-    public ControllerGame(Mainplayer player, ScenarioService scenarioService, TerminalViewService view, BaseServiceControllerImpl baseServiceController) {
+    public ControllerGame(Mainplayer player, ScenarioService scenarioService, TerminalViewService view, BaseServiceController baseServiceController) {
         this.player = player;
         this.scenarioService = scenarioService;
         this.view = view;
@@ -99,6 +99,7 @@ public class ControllerGame {
     }
 
     public void getObjects(String nameObject) {
+        player.toString();
         baseServiceController.getObjectsService(nameObject);
     }
 

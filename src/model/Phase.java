@@ -26,7 +26,9 @@ public abstract class Phase {
     public Phase() {
     }
 
-    protected Boolean start () {}
+    protected Boolean start () {
+        return false;
+    }
 
     public boolean isStatus() {
         return status;
