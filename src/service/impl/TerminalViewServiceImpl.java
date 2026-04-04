@@ -79,4 +79,10 @@ public class TerminalViewServiceImpl implements TerminalViewService {
             displayMenssage("Player nventory " + namePlayer + "\n Empty inventory");
         }
     }
+
+    @Override
+    public void startPhaseView() {
+        displayMenssage("\n<===============> Welcome to the game! <===================>");
+        displayMenssage("<=============>COMMANDS TO USE IN THE GAME<==============>");
+    }
 }

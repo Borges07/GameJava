@@ -4,17 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import service.InputService;
 import service.TerminalViewService;
 
 public class ScenarioService {
     private final List<Scenario> scenarios = new ArrayList<>();
     private TerminalViewService display;
-    private Phases ph = new Phases(false);
-    private Scanner sc = new Scanner(System.in);
+    private PhaseOne ph = new PhaseOne(false);
+    private InputService input;
 
-    public ScenarioService(Mainplayer player, TerminalViewService display) {
-        this.ph = new Phases(false, player, this);
+    public ScenarioService(Mainplayer player, TerminalViewService display, InputService input) {
+        this.ph = new PhaseOne(false, player, this, null); // tira esse null dai dps da bigode
         this.display = display;
+        this.input = input;
         startScenario();
     }
 
@@ -168,13 +170,18 @@ public class ScenarioService {
                 boolean between = false;
                 while (!between) {
                     display.displayMenssage("Do you want to join the stage?");
-                    String ent = sc.nextLine();
-                    System.out.println("depois do join stage aqui");
+                    String ent = input.commandTerminal();
                     if (ent.equalsIgnoreCase("yes")) {
-                        System.out.println("depois do if de start");
                         between = true;
-                        System.out.println("próxima linha é o ph.start");
                         ph.start();
+                        if (ph.start() == true) {
+                            // Fix que não tenho controle agora, vermos
+                            // os bug e fluxos de funcionamento
+                            //fo código para ver se setamos o scenario ak
+                            // mas por enquanto irei deixar assim
+                            returnDisplay(5);
+                            setCurrentScenario(5);
+                        }
                     } else if (ent.equalsIgnoreCase("no")) {
                         between = true;
                         setCurrentScenario(4);
